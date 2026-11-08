@@ -1,0 +1,96 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Not Another Run Club.</title>
+<meta name="description" content="Not Another Run Club. A run club in Budapest that only organises special events.">
+<meta name="theme-color" content="#0A0A0A">
+<meta property="og:title" content="Not Another Run Club.">
+<meta property="og:description" content="Special events only. Budapest.">
+<meta property="og:image" content="media/og.png">
+<link rel="icon" href="media/neq.svg" type="image/svg+xml">
+<link rel="preload" href="fonts/Inter-ExtraLight.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<header class="hero">
+  <div class="bar">
+    <span class="label">NARC</span>
+    <a class="label" href="https://www.instagram.com/notanother.run/" rel="noopener">@notanother.run</a>
+  </div>
+  <img class="neq" src="media/neq.svg" alt="≠">
+  <div style="padding:0 var(--pad)">
+    <h1>Not another run club.</h1>
+    <p class="sub">Budapest. Special events only.</p>
+  </div>
+</header>
+
+<section class="event" id="event">
+  <p class="label">Next event</p>
+  <div class="when"><h2 id="ev-date">Soon.</h2><i class="tape" id="ev-tape" hidden></i></div>
+  <p class="label count" id="ev-count"></p>
+  <div class="details">
+    <p id="ev-title"></p>
+    <p id="ev-meta" style="color:var(--grey);margin-top:12px"></p>
+  </div>
+  <a class="btn" id="ev-btn" href="https://ig.me/m/notanother.run" rel="noopener">Sign up on Instagram</a>
+</section>
+
+<section class="what" id="what">
+  <p class="label">What it is</p>
+  <h2 style="margin-top:28px">Events.<br>Not routines.</h2>
+  <p>We don't do Tuesday at 18:30. No pacers, no personal bests, no matching kits. We organise special events: rare, a little odd, never the same twice.</p>
+</section>
+
+<section class="rules" id="rules">
+  <p class="label">House rules</p>
+  <ol>
+    <li><span>01</span>No visible logos. Tape covers them.</li>
+    <li><span>02</span>No pace talk. Before, during or after.</li>
+    <li><span>03</span>Nobody is left behind. Nobody is waited for either.</li>
+    <li><span>04</span>Photos are taken. Captions are kept short.</li>
+    <li><span>05</span>Show up.</li>
+  </ol>
+</section>
+
+<section id="archive">
+  <div class="feed-head">
+    <div><p class="label">From Instagram</p><h2 style="margin-top:28px">Archive.</h2></div>
+    <p class="label" id="feed-updated"></p>
+  </div>
+  <div class="grid" id="grid"></div>
+  <p class="empty" id="empty" hidden>Nothing here yet.</p>
+</section>
+
+<section class="join" id="join">
+  <p class="label">Join</p>
+  <h2 style="margin-top:28px">Show up.</h2>
+  <div class="row">
+    <a class="btn" href="https://ig.me/m/notanother.run" rel="noopener">Message us</a>
+    <a class="btn" href="https://www.instagram.com/notanother.run/" rel="noopener">Follow</a>
+  </div>
+</section>
+
+<footer>
+  <img src="media/neq.svg" alt="≠">
+  <span class="label">Not Another Run Club · Budapest</span>
+</footer>
+
+<dialog id="dlg" aria-label="Post">
+  <div class="dlg">
+    <div class="stage" id="stage"></div>
+    <div class="side">
+      <button class="x" id="close">Close</button>
+      <p class="label" id="d-date"></p>
+      <p id="d-cap"></p>
+      <div class="nav" id="d-nav"><button id="prev">Prev</button><span class="label" id="d-count"></span><button id="next">Next</button></div>
+      <a class="label" id="d-link" href="#" rel="noopener" style="color:var(--ink)">View on Instagram →</a>
+    </div>
+  </div>
+</dialog>
+
+<script src="app.js"></script>
+</body>
+</html>

@@ -1,0 +1,58 @@
+{
+ "updated": "2026-11-08T12:00:00+0000",
+ "source": "seed",
+ "posts": [
+  {
+   "id": "seed-carousel",
+   "seed": true,
+   "permalink": "https://www.instagram.com/notanother.run/",
+   "timestamp": "2026-11-01T12:00:00+0000",
+   "caption": "Introducing Not Another Run Club.",
+   "type": "CAROUSEL",
+   "media": [
+    {
+     "type": "VIDEO",
+     "src": "media/seed/s1.mp4",
+     "poster": "media/seed/s1.jpg"
+    },
+    {
+     "type": "IMAGE",
+     "src": "media/seed/s2.jpg"
+    },
+    {
+     "type": "VIDEO",
+     "src": "media/seed/s3.mp4",
+     "poster": "media/seed/s3.jpg"
+    },
+    {
+     "type": "VIDEO",
+     "src": "media/seed/s4.mp4",
+     "poster": "media/seed/s4.jpg"
+    },
+    {
+     "type": "IMAGE",
+     "src": "media/seed/s5.jpg"
+    },
+    {
+     "type": "IMAGE",
+     "src": "media/seed/s6.jpg"
+    }
+   ]
+  },
+  {
+   "id": "seed-reel",
+   "seed": true,
+   "permalink": "https://www.instagram.com/notanother.run/",
+   "timestamp": "2026-10-28T12:00:00+0000",
+   "caption": "",
+   "type": "VIDEO",
+   "media": [
+    {
+     "type": "VIDEO",
+     "src": "media/seed/reel.mp4",
+     "poster": "media/seed/reel.jpg"
+    }
+   ]
+  }
+ ]
+}
