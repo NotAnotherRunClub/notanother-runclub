@@ -1,5 +1,5 @@
 name: Sync Instagram and deploy
- 
+
 on:
   schedule:
     - cron: "17 */3 * * *"      # every 3 hours
@@ -13,26 +13,26 @@ on:
   push:
     branches: [main]
     paths: ["site/**", "scripts/**", ".github/workflows/**"]
- 
+
 permissions:
   contents: write
   pages: write
   id-token: write
- 
+
 concurrency:
   group: pages
   cancel-in-progress: false
- 
+
 jobs:
   build:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
- 
+
       - name: Check repository layout
         run: |
           test -f site/index.html || { echo "::error::site/index.html not found. The folders 'site' and 'scripts' must sit in the repository root, not inside another folder."; exit 1; }
- 
+
       - name: Import posts from Instagram
         id: sync
         continue-on-error: true      # a failed sync must never take the site down
@@ -46,7 +46,7 @@ jobs:
           else
             echo "::warning::scripts/import_instagram.py is missing - upload the 'scripts' folder to the repository root. Deploying without sync."
           fi
- 
+
       - name: Store refreshed token
         if: ${{ hashFiles(format('{0}/ig_token_new', runner.temp)) != '' }}
         env:
@@ -55,7 +55,7 @@ jobs:
           if [ -z "$GH_TOKEN" ]; then echo "::warning::SECRETS_PAT not set - refreshed token not stored. Renew IG_ACCESS_TOKEN by hand before it expires (60 days)."; exit 0; fi
           NEW=$(cat "$RUNNER_TEMP/ig_token_new"); echo "::add-mask::$NEW"
           gh secret set IG_ACCESS_TOKEN --body "$NEW" --repo "$GITHUB_REPOSITORY"
- 
+
       - name: Commit new content
         run: |
           git config user.name  "narc-sync"
@@ -65,12 +65,12 @@ jobs:
             git commit -m "Sync Instagram content"
             git push || echo "::warning::push failed, deploying the working copy anyway"
           fi
- 
+
       - uses: actions/configure-pages@v5
       - uses: actions/upload-pages-artifact@v3
         with:
           path: site
- 
+
   deploy:
     needs: build
     runs-on: ubuntu-latest
@@ -80,4 +80,3 @@ jobs:
     steps:
       - id: deployment
         uses: actions/deploy-pages@v4
-        
