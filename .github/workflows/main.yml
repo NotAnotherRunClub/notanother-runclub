@@ -1,1 +1,74 @@
+name: Sync Instagram and deploy
+
+on:
+  schedule:
+    - cron: "17 */3 * * *"      # every 3 hours
+    - cron: "41 3 * * 0"        # Sundays: also refresh the Instagram token
+  workflow_dispatch:
+    inputs:
+      refresh_token:
+        description: "Also refresh the Instagram token"
+        type: boolean
+        default: false
+  push:
+    branches: [main]
+    paths: ["site/**", "scripts/**", ".github/workflows/**"]
+
+permissions:
+  contents: write
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Import posts from Instagram
+        id: sync
+        continue-on-error: true      # a failed sync must never take the site down
+        env:
+          IG_ACCESS_TOKEN: ${{ secrets.IG_ACCESS_TOKEN }}
+          IG_REFRESH: ${{ (github.event.schedule == '41 3 * * 0' || inputs.refresh_token) && '1' || '0' }}
+          IG_TOKEN_OUT: ${{ runner.temp }}/ig_token_new
+        run: python3 scripts/import_instagram.py
+
+      - name: Store refreshed token
+        if: ${{ hashFiles(format('{0}/ig_token_new', runner.temp)) != '' }}
+        env:
+          GH_TOKEN: ${{ secrets.SECRETS_PAT }}
+        run: |
+          if [ -z "$GH_TOKEN" ]; then echo "::warning::SECRETS_PAT not set - refreshed token not stored. Renew IG_ACCESS_TOKEN by hand before it expires (60 days)."; exit 0; fi
+          NEW=$(cat "$RUNNER_TEMP/ig_token_new"); echo "::add-mask::$NEW"
+          gh secret set IG_ACCESS_TOKEN --body "$NEW" --repo "$GITHUB_REPOSITORY"
+
+      - name: Commit new content
+        run: |
+          git config user.name  "narc-sync"
+          git config user.email "narc-sync@users.noreply.github.com"
+          git add site/data site/media/ig
+          if ! git diff --cached --quiet; then
+            git commit -m "Sync Instagram content"
+            git push || echo "::warning::push failed, deploying the working copy anyway"
+          fi
+
+      - uses: actions/configure-pages@v5
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: site
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - id: deployment
+        uses: actions/deploy-pages@v4
 
